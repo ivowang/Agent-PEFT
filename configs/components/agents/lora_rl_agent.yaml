@@ -1,6 +1,7 @@
 lora_rl_agent:
   module: "src.agents.instance.lora_rl_agent.LoRARLAgent"
   parameters:
+    language_model: null  # Will be replaced by custom_parameters
     system_prompt: "You are a helpful SQL assistant."
     inference_config_dict:
       do_sample: false
@@ -9,4 +10,5 @@ lora_rl_agent:
       temperature: null
       top_k: null
       top_p: null
+    rl_callback: null  # Will be set by CallbackConstructor
 

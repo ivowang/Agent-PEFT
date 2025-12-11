@@ -1,4 +1,5 @@
 import docker
+import docker.errors
 import mysql.connector
 import random
 import socket
@@ -11,10 +12,25 @@ class DBBenchContainer:
     port = 13000
     password = "password"
 
-    def __init__(self, image: str = "mysql"):
+    def __init__(self, image: str = "mysql:latest"):
         self.deleted = False
         self.image = image
         self.client = docker.from_env()
+        
+        # Check if image exists, if not try to pull it
+        try:
+            self.client.images.get(image)
+        except docker.errors.ImageNotFound:
+            print(f"Image {image} not found locally. Attempting to pull...")
+            try:
+                self.client.images.pull(image)
+                print(f"Successfully pulled {image}")
+            except Exception as e:
+                print(f"Failed to pull {image}: {e}")
+                print(f"Please ensure Docker is running and you have network access.")
+                print(f"Or manually pull the image with: docker pull {image}")
+                raise
+        
         p = DBBenchContainer.port + random.randint(0, 10000)
         while self.is_port_open(p):
             p += random.randint(0, 20)
