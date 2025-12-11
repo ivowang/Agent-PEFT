@@ -1,0 +1,18 @@
+db_bench_single_skill:
+  module: "src.tasks.instance.db_bench.task_single_skill.DBBenchSingleSkill"
+  parameters:
+    task_name:
+      module: "src.typings.TaskName"
+      parameters:
+        value: "db_bench"
+    chat_history_item_factory:
+      module: "src.factories.chat_history_item.ChatHistoryItemFactory"
+      parameters:
+        chat_history_item_dict_path: "./chat_history_items/standard/db_bench.json"
+    single_skill_task_generator:
+      module: "src.tasks.instance.db_bench.single_skill_task_generator.SingleSkillTaskGenerator"
+      parameters:
+        skill_to_tasks_path: "./data/v0303/db_bench/processed/v0317_first500/single_skill_tasks.json"
+    max_round: 3
+    random_seed: null
+

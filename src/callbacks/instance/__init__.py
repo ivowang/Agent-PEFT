@@ -4,3 +4,4 @@ from .group_self_consistency_callback import GroupSelfConsistencyCallback
 from .consecutive_abnormal_agent_inference_process_handling_callback import (
     ConsecutiveAbnormalAgentInferenceProcessHandlingCallback,
 )
+from .rl_training_callback import RLTrainingCallback

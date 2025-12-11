@@ -1,0 +1,11 @@
+rl_training_callback:
+  module: "src.callbacks.instance.rl_training_callback.RLTrainingCallback"
+  parameters:
+    reward_weight: 1.0
+    learning_rate: 1e-5
+    optimizer_class: "AdamW"
+    gradient_accumulation_steps: 1
+    reward_correct: 1.0
+    reward_incorrect: -0.1
+    reward_timeout: -0.3
+

@@ -1,0 +1,37 @@
+import:
+  - ../task.yaml
+  - ../../../agent.yaml
+  - ../../../../../../definition.yaml
+
+assignment_config:
+  task: db_bench_single_skill
+  agent:
+    name: lora_rl_agent
+    custom_parameters:
+      language_model: Qwen2.5-7B-Instruct-LoRA
+  language_model_list:
+    - name: Qwen2.5-7B-Instruct-LoRA
+  callback_dict:
+    rl_training:
+      name: rl_training_callback
+    callback_0:
+      name: current_session_saving_callback
+    callback_1:
+      name: consecutive_abnormal_agent_inference_process_handling_callback
+  output_dir: outputs/rl_training/qwen25_7b_instruct/db_bench/{TIMESTAMP}
+  sample_order:
+    - "0"
+    - "1"
+    - "2"
+    - "3"
+    - "4"
+    - "5"
+    - "6"
+    - "7"
+    - "8"
+    - "9"
+    # 可以添加更多样本索引，或者使用 "default" 来运行所有可用任务
+
+environment_config:
+  use_task_client_flag: false
+

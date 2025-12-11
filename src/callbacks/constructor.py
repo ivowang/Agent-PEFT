@@ -7,6 +7,8 @@ from src.agents import Agent
 from src.typings import AssignmentConfig, Role
 from .instance import *
 from .callback import Callback
+from .instance.rl_training_callback import RLTrainingCallback
+from .instance.rl_training_callback import RLTrainingCallback
 
 
 class CallbackConstructor:
@@ -50,6 +52,8 @@ class CallbackConstructor:
                     unique_flag = (
                         ConsecutiveAbnormalAgentInferenceProcessHandlingCallback.is_unique()
                     )
+                case RLTrainingCallback.__name__:
+                    unique_flag = RLTrainingCallback.is_unique()
                 case _:
                     raise NotImplementedError(
                         f"Callback {target_class_str} is not implemented or not handled in CallbackConstructor."
@@ -67,4 +71,21 @@ class CallbackConstructor:
                     assignment_config.output_dir, "callback_state", callback_id
                 )
             )
+        
+        # Connect RL callback to agent if using LoRARLAgent
+        try:
+            from src.agents.instance.lora_rl_agent import LoRARLAgent
+            if isinstance(agent, LoRARLAgent):
+                # Find RL callback by checking callback types
+                rl_callback = None
+                for callback in callback_dict.values():
+                    if isinstance(callback, RLTrainingCallback):
+                        rl_callback = callback
+                        break
+                if rl_callback is not None:
+                    agent.set_rl_callback(rl_callback)
+        except ImportError:
+            # LoRARLAgent not available, skip
+            pass
+        
         return callback_dict
